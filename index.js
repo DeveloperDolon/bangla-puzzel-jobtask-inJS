@@ -1,6 +1,7 @@
 // all variables is here
 const drawerBtn = document.querySelector(".drawer-button");
 const productContainer = document.querySelector("#product-container");
+const itemCount = document.querySelector("#item-count");
 
 const cartIds = [];
 const cartItems = [];
@@ -35,8 +36,12 @@ const foodsItems = [
   },
 ];
 
+let ab = 1;
+
 const closeDrawer = () => {
-  drawerBtn.click();
+    itemCount.innerHTML = (`<span>${cartItems?.length ? cartItems?.length : 0}</span>`);
+    ab = 1;
+    drawerBtn.click();
 };
 
 const handleAddToCart = (id) => {
@@ -48,7 +53,8 @@ const handleAddToCart = (id) => {
 
     const item = foodsItems.find(item => parseInt(item.id) === id);
     cartItems.push(item);
-    
+    itemCount.innerHTML = (`<span>${cartItems?.length ? cartItems?.length : 0}</span>`);
+
     const updatedCards = foodsItems.map((item) => {
         return `
           <div class="card bg-[#ebedef] shadow-xl">
@@ -66,11 +72,15 @@ const handleAddToCart = (id) => {
                       <button class="btn btn-primary text-[#fd5442] border-2 border-[#fd5442] bg-transparent uppercase w-full block">Customize</button>
                   </div>
               </div>
-          </div>  
+          </div> 
         `;
       });
 
       productContainer.innerHTML = updatedCards.join("");
+      if(ab === 1) {
+        drawerBtn.click();
+        ab=0;
+      }
 }
 
 const allCards = foodsItems.map((item) => {
