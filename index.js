@@ -40,6 +40,8 @@ const foodsItems = [
 
 let ab = 1;
 
+let quantity = 1;
+
 const closeDrawer = () => {
     itemCount.innerHTML = (`<span>${cartItems?.length ? cartItems?.length : 0}</span>`);
     ab = 1;
@@ -49,6 +51,20 @@ const closeDrawer = () => {
 
 const changeToNumber = () => {
     ab = 1;
+}
+
+const handleIncrease = (id, price) => {
+    quantity++;
+    document.querySelector(`#productQuantity_${id}`).innerHTML = quantity + "";
+    document.querySelector(`#product_price_${id}`).innerHTML = quantity * price;
+}
+
+const handleDecrease = (id, price) => {
+    if(quantity > 1) {
+        quantity--;
+        document.querySelector(`#productQuantity_${id}`).innerHTML = quantity + "";
+        document.querySelector(`#product_price_${id}`).innerHTML = quantity * price;
+    }
 }
 
 const handleAddToCart = (id) => {
@@ -63,7 +79,31 @@ const handleAddToCart = (id) => {
     cartItems.push(item);
     itemCount.innerHTML = (`<span>${cartItems?.length ? cartItems?.length : 0}</span>`);
 
-    cartItemsContainer.innerHTML="asd;lf"
+    cartItemsContainer.innerHTML = cartItems?.map(item =>  {
+        return `<div class='border-2 border-white grid grid-cols-5 rounded-lg relative p-2 gap-5'>
+            <div class='col-span-2'>
+                <img src=${item?.image} class='w-full h-[100px] object-cover rounded-lg' alt="" />
+            </div>
+
+            <div class='col-span-3'>
+                <h5 class='md:text-lg text-base font-semibold text-white'>${item?.name}</h5>
+                <p class='md:text-sm text-xs font-medium text-white'>${item?.price}$/each</p>
+
+                <div class='flex mt-3 items-center'>
+                    <button onclick="handleDecrease(${item?.id}, ${item?.price})" class='px-[8.5px] py-1 font-bold bg-gray-200 rounded-md'> - </button>
+                    <span id="productQuantity_${item?.id}" class='px-4 bg-white md:text-sm text-xs font-semibold py-[2px]'>${quantity}</span>
+                    <button onclick="handleIncrease(${item?.id}, ${item?.price})" class='px-[6px] py-1 font-bold bg-gray-200 rounded-md'> + </button>
+                </div>
+
+                <p id="product_price_${item?.id}" class="absolute bottom-1 right-1 md:text-lg text-base font-medium text-white">
+                    ${item?.price}$
+                </p>
+
+                <button class="absolute bg-white text-[#fd5442] -top-2 z-40 px-1 -right-2 rounded-md"><Delete style={{fontSize: "17px"}}></Delete></button>
+            </div>
+        </div>
+    `
+    })
 
     cartCount.innerHTML = cartItems?.length;
 
