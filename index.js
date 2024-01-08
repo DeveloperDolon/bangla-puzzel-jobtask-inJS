@@ -5,8 +5,8 @@ const itemCount = document.querySelector("#item-count");
 const cartItemsContainer = document.querySelector("#cart-items");
 const cartCount = document.querySelector("#cart-count");
 
-const cartIds = [];
-const cartItems = [];
+let cartIds = [];
+let cartItems = [];
 
 const foodsItems = [
   {
@@ -67,6 +67,69 @@ const handleDecrease = (id, price) => {
     }
 }
 
+
+const handleRemoveItem = (id) => {
+    cartIds = cartIds.filter(item => item !== id);
+    cartItems = cartItems.filter(item => parseInt(item?.id) !== id);
+    
+    cartItemsContainer.innerHTML = cartItems?.map(item =>  {
+        return `<div class='border-2 border-white grid grid-cols-5 rounded-lg relative p-2 gap-5'>
+            <div class='col-span-2'>
+                <img src=${item?.image} class='w-full h-[100px] object-cover rounded-lg' alt="" />
+            </div>
+
+            <div class='col-span-3'>
+                <h5 class='md:text-lg text-base font-semibold text-white'>${item?.name}</h5>
+                <p class='md:text-sm text-xs font-medium text-white'>${item?.price}$/each</p>
+
+                <div class='flex mt-3 items-center'>
+                    <button onclick="handleDecrease(${item?.id}, ${item?.price})" class='px-[8.5px] py-1 font-bold bg-gray-200 rounded-md'> - </button>
+                    <span id="productQuantity_${item?.id}" class='px-4 bg-white md:text-sm text-xs font-semibold py-[2px]'>${quantity}</span>
+                    <button onclick="handleIncrease(${item?.id}, ${item?.price})" class='px-[6px] py-1 font-bold bg-gray-200 rounded-md'> + </button>
+                </div>
+
+                <p id="product_price_${item?.id}" class="absolute bottom-1 right-1 md:text-lg text-base font-medium text-white">
+                    ${item?.price}$
+                </p>
+
+                <button onclick="handleRemoveItem(${item?.id})" class="absolute bg-white text-[#fd5442] -top-2 z-40 px-1 -right-2 rounded-md"><i class="fa-solid fa-trash"></i></button>
+            </div>
+        </div>
+    `
+    })
+
+    cartCount.innerHTML = cartItems?.length;
+    itemCount.innerHTML = (`<span>${cartItems?.length ? cartItems?.length : 0}</span>`);
+
+    if(cartItems?.length === 0) {
+        cartCount.classList.add("hidden");
+        cartCount.classList.remove("flex");
+    }
+
+    const updatedCards = foodsItems.map((item) => {
+        return `
+          <div class="card bg-[#ebedef] shadow-xl">
+              <figure class="p-3 pb-0">
+                  <img src="${item?.image}" class="h-44 w-full object-cover rounded-lg" alt="Shoes" class="rounded-xl" />
+              </figure>
+              <div class="card-body items-center px-4 pb-4 pt-4">
+                  <h2 class=" w-full md:text-xl text-lg font-bold">${item?.name}</h2>
+                  <p class="md:text-lg w-full text-base font-medium">
+                      ${item?.price}$/each
+                  </p>
+                  <p class="md:text-sm text-xs text-justify">${item?.description}</p>
+                  <div class="card-actions w-full mt-2">
+                        ${cartIds.includes(parseInt(item?.id)) ? `<button disabled class="btn btn-primary bg-[#fd5442] text-white border-none uppercase w-full block">Added To Cart</button>` :`<button onclick="handleAddToCart(${item?.id})" class="btn btn-primary bg-[#fd5442] text-white border-none uppercase w-full block">Add To Order</button>` }
+                      <button class="btn btn-primary text-[#fd5442] border-2 border-[#fd5442] bg-transparent uppercase w-full block">Customize</button>
+                  </div>
+              </div>
+          </div> 
+        `;
+    });
+
+      productContainer.innerHTML = updatedCards.join("");
+}
+
 const handleAddToCart = (id) => {
 
     if(cartIds.includes(id)) {
@@ -99,7 +162,7 @@ const handleAddToCart = (id) => {
                     ${item?.price}$
                 </p>
 
-                <button class="absolute bg-white text-[#fd5442] -top-2 z-40 px-1 -right-2 rounded-md"><Delete style={{fontSize: "17px"}}></Delete></button>
+                <button onclick="handleRemoveItem(${item?.id})" class="absolute bg-white text-[#fd5442] -top-2 z-40 px-1 -right-2 rounded-md"><i class="fa-solid fa-trash"></i></button>
             </div>
         </div>
     `
@@ -131,7 +194,7 @@ const handleAddToCart = (id) => {
               </div>
           </div> 
         `;
-      });
+    });
 
       productContainer.innerHTML = updatedCards.join("");
       if(ab === 1) {
