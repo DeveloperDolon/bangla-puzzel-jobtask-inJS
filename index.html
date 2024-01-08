@@ -66,13 +66,13 @@
                                 </label>
                             </div>
 
-                            <div class="drawer-side w-fit overflow-hidden ml-[calc(100%-320px)]">
+                            <div class="drawer-side w-fit overflow-hidden ml-[calc(100%-320px)] z-40">
                                 <!-- <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label> -->
                                 <div class="w-80 min-h-screen bg-[#fd5442] text-base-content">
                                     <!-- Sidebar content here -->
                                     <div class="bg-white">
                                         <button class="btn btn-sm" onclick="closeDrawer()" aria-label="close sidebar"
-                                        for="my-drawer-4">Close</button>
+                                            for="my-drawer-4">Close</button>
                                     </div>
                                 </div>
                             </div>
@@ -86,18 +86,44 @@
         </section>
         <!-- navbar sections start from here -->
     </div>
-
+    <!-- https://cors-anywhere.herokuapp.com/corsdemo -->
     <!-- banner text sections -->
-    <div>
-        <section>
+    <div class="w-full mb-32 overflow-x-hidden lg:px-0 md:px-5 px-3">
+        <section class="max-w-6xl mx-auto">
             <div class="MuiContainer-root MuiContainer-maxWidthLg css-1qsxih2">
-                <h1 class="pt-8 md:text-5xl text-3xl text-center uppercase text-[#fd5442] font-medium flex items-center justify-center">Chicken Crisper<span class="md:text-7xl text-5xl">®</span> Combos</h1>
-                <p class="text-center md:text-lg text-base flex items-center justify-center py-3"><span class="md:text-base text-sm text-[#fd5442] pr-3">Menu</span> 
-                    <svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv md:w-4 w-3" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowForwardIosIcon" style="font-size: 20px; margin-right: 8px;"><path d="M6.23 20.23 8 22l10-10L8 2 6.23 3.77 14.46 12z"></path></svg>
-                    Chicken Crisper<span class="">® Combos</span> Combos</p>
-                <p class="text-center md:text-xl text-lg font-medium pt-2">Find everything from our Big Mouth Burgers®, our always sizzling, Full-on Fajitas and our famous Chicken Crispers®</p>
+                <h1
+                    class="pt-8 md:text-5xl text-3xl text-center uppercase text-[#fd5442] font-medium flex items-center justify-center">
+                    Chicken Crisper<span class="md:text-7xl text-5xl">®</span> Combos</h1>
+                <p class="text-center md:text-lg text-base flex items-center justify-center py-3"><span
+                        class="md:text-base text-sm text-[#fd5442] pr-3">Menu</span>
+                    <svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv md:w-4 w-3" focusable="false"
+                        aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowForwardIosIcon"
+                        style="font-size: 20px; margin-right: 8px;">
+                        <path d="M6.23 20.23 8 22l10-10L8 2 6.23 3.77 14.46 12z"></path>
+                    </svg>
+                    Chicken Crisper<span class="">® Combos</span> Combos
+                </p>
+                <p class="text-center md:text-xl text-lg font-medium pt-2">Find everything from our Big Mouth Burgers®,
+                    our always sizzling, Full-on Fajitas and our famous Chicken Crispers®</p>
                 <div class="flex justify-end py-8">
-                    
+                    <div class="dropdown dropdown-bottom overflow-visible z-0">
+                        <div tabindex="0" role="button" class="btn m-1 font-bold md:text-base text-sm border-black border bg-none" style="background-color: transparent;">
+                            MENU
+                            <svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv md:w-4 w-3 rotate-90"
+                                focusable="false" aria-hidden="true" viewBox="0 0 24 24"
+                                data-testid="ArrowForwardIosIcon" style="font-size: 20px; margin-right: 8px;">
+                                <path d="M6.23 20.23 8 22l10-10L8 2 6.23 3.77 14.46 12z"></path>
+                            </svg>
+                        </div>
+                        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                            <li><a>Item 1</a></li>
+                            <li><a>Item 2</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="product-container" class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 mt-10">
+
                 </div>
             </div>
         </section>
