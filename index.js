@@ -2,6 +2,8 @@
 const drawerBtn = document.querySelector(".drawer-button");
 const productContainer = document.querySelector("#product-container");
 const itemCount = document.querySelector("#item-count");
+const cartItemsContainer = document.querySelector("#cart-items");
+const cartCount = document.querySelector("#cart-count");
 
 const cartIds = [];
 const cartItems = [];
@@ -41,8 +43,13 @@ let ab = 1;
 const closeDrawer = () => {
     itemCount.innerHTML = (`<span>${cartItems?.length ? cartItems?.length : 0}</span>`);
     ab = 1;
+
     drawerBtn.click();
 };
+
+const changeToNumber = () => {
+    ab = 1;
+}
 
 const handleAddToCart = (id) => {
 
@@ -51,9 +58,19 @@ const handleAddToCart = (id) => {
     }
     cartIds.push(id);
 
+
     const item = foodsItems.find(item => parseInt(item.id) === id);
     cartItems.push(item);
     itemCount.innerHTML = (`<span>${cartItems?.length ? cartItems?.length : 0}</span>`);
+
+    cartItemsContainer.innerHTML="asd;lf"
+
+    cartCount.innerHTML = cartItems?.length;
+
+    if(cartItems?.length > 0) {
+        cartCount.classList.remove("hidden");
+        cartCount.classList.add("flex");
+    }
 
     const updatedCards = foodsItems.map((item) => {
         return `

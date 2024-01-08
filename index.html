@@ -60,10 +60,10 @@
                             <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
                             <div class="drawer-content">
                                 <!-- Page content here -->
-                                <label for="my-drawer-4" class="drawer-button relative cursor-pointer">
+                                <label onclick="changeToNumber()" for="my-drawer-4" class="drawer-button relative cursor-pointer">
                                     <i class="fa-solid fa-bag-shopping md:text-3xl text-xl"></i>
-                                    <div class="md:text-[10px] text-white font-semibold text-[8px] absolute -top-2 -right-2 bg-[#fd5442] rounded-full py-1 w-5 flex justify-center"
-                                        style="line-height: 12px; letter-spacing: 0px;">23</div>
+                                    <div id="cart-count" class="md:text-[10px] text-white font-semibold text-[8px] absolute -top-2 -right-2 bg-[#fd5442] hidden rounded-full py-1 w-5  justify-center"
+                                        style="line-height: 12px; letter-spacing: 0px;">0</div>
                                 </label>
                             </div>
 
@@ -82,6 +82,10 @@
                                         </div>
 
                                         <button class="btn btn-sm border border-[#fd5442] bg-transparent text-[#fd5442]" onclick="closeDrawer()" aria-label="close sidebar" for="my-drawer-4">Close</button>
+                                    </div>
+
+                                    <div id="cart-items" class="p-3">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +110,7 @@
                     Chicken Crisper<span class="md:text-7xl text-5xl">®</span> Combos</h1>
                 <p class="text-center md:text-lg text-base flex items-center justify-center py-3"><span
                         class="md:text-base text-sm text-[#fd5442] pr-3">Menu</span>
-                    <svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv md:w-4 w-3" focusable="false"
+                    <svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv md:w-4 w-3"               focusable="false"
                         aria-hidden="true" viewBox="0 0 24 24" data-testid="ArrowForwardIosIcon"
                         style="font-size: 20px; margin-right: 8px;">
                         <path d="M6.23 20.23 8 22l10-10L8 2 6.23 3.77 14.46 12z"></path>
