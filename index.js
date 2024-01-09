@@ -39,111 +39,133 @@ const foodsItems = [
 ];
 
 let ab = 1;
-
+let totalPrice = 0;
 let quantity = 1;
 
 const closeDrawer = () => {
-    itemCount.innerHTML = (`<span>${cartItems?.length ? cartItems?.length : 0}</span>`);
-    ab = 1;
+  itemCount.innerHTML = `<span>${
+    cartItems?.length ? cartItems?.length : 0
+  }</span>`;
+  ab = 1;
 
-    drawerBtn.click();
+  drawerBtn.click();
 };
 
 const changeToNumber = () => {
-    ab = 1;
-}
-
-const handleIncrease = (id, price) => {
-    quantity++;
-    document.querySelector(`#productQuantity_${id}`).innerHTML = quantity + "";
-    document.querySelector(`#product_price_${id}`).innerHTML = quantity * price;
-}
-
-const handleDecrease = (id, price) => {
-    if(quantity > 1) {
-        quantity--;
-        document.querySelector(`#productQuantity_${id}`).innerHTML = quantity + "";
-        document.querySelector(`#product_price_${id}`).innerHTML = quantity * price;
-    }
-}
-
+  ab = 1;
+};
 
 const handleRemoveItem = (id) => {
-    cartIds = cartIds.filter(item => item !== id);
-    cartItems = cartItems.filter(item => parseInt(item?.id) !== id);
-    
-    cartItemsContainer.innerHTML = cartItems?.map(item =>  {
-        return `<div class='border-2 border-white grid grid-cols-5 rounded-lg relative p-2 gap-5'>
-            <div class='col-span-2'>
-                <img src=${item?.image} class='w-full h-[100px] object-cover rounded-lg' alt="" />
-            </div>
+  cartIds = cartIds.filter((item) => item !== id);
+  cartItems = cartItems.filter((item) => parseInt(item?.id) !== id);
+  quantity--;
+  const minusAmount = document.querySelector(`#product_price_${id}`).textContent;
+  totalPrice -= parseInt(minusAmount);
+  document.querySelector(`#total-price`).innerHTML = totalPrice;
 
-            <div class='col-span-3'>
-                <h5 class='md:text-lg text-base font-semibold text-white'>${item?.name}</h5>
-                <p class='md:text-sm text-xs font-medium text-white'>${item?.price}$/each</p>
+  if(cartItems?.length === 0) {
+    document.querySelector(`#total-price`).innerHTML = 0;
+  }
 
-                <div class='flex mt-3 items-center'>
-                    <button onclick="handleDecrease(${item?.id}, ${item?.price})" class='px-[8.5px] py-1 font-bold bg-gray-200 rounded-md'> - </button>
-                    <span id="productQuantity_${item?.id}" class='px-4 bg-white md:text-sm text-xs font-semibold py-[2px]'>${quantity}</span>
-                    <button onclick="handleIncrease(${item?.id}, ${item?.price})" class='px-[6px] py-1 font-bold bg-gray-200 rounded-md'> + </button>
-                </div>
 
-                <p id="product_price_${item?.id}" class="absolute bottom-1 right-1 md:text-lg text-base font-medium text-white">
-                    ${item?.price}$
-                </p>
+  document.getElementById(`cart-item-card-${id}`).remove();
 
-                <button onclick="handleRemoveItem(${item?.id})" class="absolute bg-white text-[#fd5442] -top-2 z-40 px-1 -right-2 rounded-md"><i class="fa-solid fa-trash"></i></button>
-            </div>
-        </div>
-    `
-    })
+  cartCount.innerHTML = cartItems?.length;
+  itemCount.innerHTML = `<span>${
+    cartItems?.length ? cartItems?.length : 0
+  }</span>`;
 
-    cartCount.innerHTML = cartItems?.length;
-    itemCount.innerHTML = (`<span>${cartItems?.length ? cartItems?.length : 0}</span>`);
+  if (cartItems?.length === 0) {
+    cartCount.classList.add("hidden");
+    cartCount.classList.remove("flex");
+  }
 
-    if(cartItems?.length === 0) {
-        cartCount.classList.add("hidden");
-        cartCount.classList.remove("flex");
-    }
 
-    const updatedCards = foodsItems.map((item) => {
-        return `
+  const updatedCards = foodsItems.map((item) => {
+    return `
           <div class="card bg-[#ebedef] shadow-xl">
               <figure class="p-3 pb-0">
-                  <img src="${item?.image}" class="h-44 w-full object-cover rounded-lg" alt="Shoes" class="rounded-xl" />
+                  <img src="${
+                    item?.image
+                  }" class="h-44 w-full object-cover rounded-lg" alt="Shoes" class="rounded-xl" />
               </figure>
               <div class="card-body items-center px-4 pb-4 pt-4">
-                  <h2 class=" w-full md:text-xl text-lg font-bold">${item?.name}</h2>
+                  <h2 class=" w-full md:text-xl text-lg font-bold">${
+                    item?.name
+                  }</h2>
                   <p class="md:text-lg w-full text-base font-medium">
                       ${item?.price}$/each
                   </p>
-                  <p class="md:text-sm text-xs text-justify">${item?.description}</p>
+                  <p class="md:text-sm text-xs text-justify">${
+                    item?.description
+                  }</p>
                   <div class="card-actions w-full mt-2">
-                        ${cartIds.includes(parseInt(item?.id)) ? `<button disabled class="btn btn-primary bg-[#fd5442] text-white border-none uppercase w-full block">Added To Cart</button>` :`<button onclick="handleAddToCart(${item?.id})" class="btn btn-primary bg-[#fd5442] text-white border-none uppercase w-full block">Add To Order</button>` }
+                        ${
+                          cartIds.includes(parseInt(item?.id))
+                            ? `<button disabled class="btn btn-primary bg-[#fd5442] text-white border-none uppercase w-full block">Added To Cart</button>`
+                            : `<button onclick="handleAddToCart(${item?.id})" class="btn btn-primary bg-[#fd5442] text-white border-none uppercase w-full block">Add To Order</button>`
+                        }
                       <button class="btn btn-primary text-[#fd5442] border-2 border-[#fd5442] bg-transparent uppercase w-full block">Customize</button>
                   </div>
               </div>
           </div> 
         `;
-    });
+  });
 
-      productContainer.innerHTML = updatedCards.join("");
-}
+  productContainer.innerHTML = updatedCards.join("");
+};
+
+
+
+  const handleIncrease = (id, price) => {
+    const preQuantity = document.querySelector(`#productQuantity_${id}`).textContent;
+    let quantity2 = parseFloat(preQuantity);
+    quantity2++;
+    document.querySelector(`#productQuantity_${id}`).innerHTML = quantity2 + "";
+    document.querySelector(`#product_price_${id}`).innerHTML = quantity2 * price;
+    totalPrice += price;
+    document.querySelector(`#total-price`).innerHTML = totalPrice;
+  };
+
+  const handleDecrease = (id, price) => {
+    const preQuantity = document.querySelector(`#productQuantity_${id}`).textContent;
+    
+    let quantity2 = parseInt(preQuantity);
+    if (quantity2 > 1) {
+      quantity2--;
+      document.querySelector(`#productQuantity_${id}`).innerHTML = quantity2 + "";
+      document.querySelector(`#product_price_${id}`).innerHTML = quantity2 * price;
+      totalPrice -= price;
+      console.log(totalPrice);
+      document.querySelector(`#total-price`).innerHTML = totalPrice;
+    }
+  };
+
 
 const handleAddToCart = (id) => {
+  
 
-    if(cartIds.includes(id)) {
-        return;
-    }
-    cartIds.push(id);
+  quantity++;
 
+  if (cartIds.includes(id)) {
+    return;
+  }
+  cartIds.push(id);
 
-    const item = foodsItems.find(item => parseInt(item.id) === id);
-    cartItems.push(item);
-    itemCount.innerHTML = (`<span>${cartItems?.length ? cartItems?.length : 0}</span>`);
+  const item = foodsItems.find((item) => parseInt(item.id) === id);
+  cartItems.push(item);
+  totalPrice += item?.price;
 
-    cartItemsContainer.innerHTML = cartItems?.map(item =>  {
-        return `<div class='border-2 border-white grid grid-cols-5 rounded-lg relative p-2 gap-5'>
+  itemCount.innerHTML = `<span>${
+    cartItems?.length ? cartItems?.length : 0
+  }</span>`;
+
+  document.querySelector(`#total-price`).innerHTML = totalPrice;
+  const cartItemCard = document.createElement("div");
+  cartItemCard.classList.add("border-2", "border-white", "grid", "grid-cols-5", "rounded-lg", "relative", "p-2", "gap-5");
+  cartItemCard.id = `cart-item-card-${id}`;
+  
+  cartItemCard.innerHTML = `
             <div class='col-span-2'>
                 <img src=${item?.image} class='w-full h-[100px] object-cover rounded-lg' alt="" />
             </div>
@@ -154,7 +176,7 @@ const handleAddToCart = (id) => {
 
                 <div class='flex mt-3 items-center'>
                     <button onclick="handleDecrease(${item?.id}, ${item?.price})" class='px-[8.5px] py-1 font-bold bg-gray-200 rounded-md'> - </button>
-                    <span id="productQuantity_${item?.id}" class='px-4 bg-white md:text-sm text-xs font-semibold py-[2px]'>${quantity}</span>
+                    <span id="productQuantity_${item?.id}" class='px-4 bg-white md:text-sm text-xs font-semibold py-[2px]'>1</span>
                     <button onclick="handleIncrease(${item?.id}, ${item?.price})" class='px-[6px] py-1 font-bold bg-gray-200 rounded-md'> + </button>
                 </div>
 
@@ -164,44 +186,53 @@ const handleAddToCart = (id) => {
 
                 <button onclick="handleRemoveItem(${item?.id})" class="absolute bg-white text-[#fd5442] -top-2 z-40 px-1 -right-2 rounded-md"><i class="fa-solid fa-trash"></i></button>
             </div>
-        </div>
-    `
-    })
+    `;
 
-    cartCount.innerHTML = cartItems?.length;
+    cartItemsContainer.appendChild(cartItemCard);
+  cartCount.innerHTML = cartItems?.length;
 
-    if(cartItems?.length > 0) {
-        cartCount.classList.remove("hidden");
-        cartCount.classList.add("flex");
-    }
+  if (cartItems?.length > 0) {
+    cartCount.classList.remove("hidden");
+    cartCount.classList.add("flex");
+  }
 
-    const updatedCards = foodsItems.map((item) => {
-        return `
+  const updatedCards = foodsItems.map((item) => {
+    return `
           <div class="card bg-[#ebedef] shadow-xl">
               <figure class="p-3 pb-0">
-                  <img src="${item?.image}" class="h-44 w-full object-cover rounded-lg" alt="Shoes" class="rounded-xl" />
+                  <img src="${
+                    item?.image
+                  }" class="h-44 w-full object-cover rounded-lg" alt="Shoes" class="rounded-xl" />
               </figure>
               <div class="card-body items-center px-4 pb-4 pt-4">
-                  <h2 class=" w-full md:text-xl text-lg font-bold">${item?.name}</h2>
+                  <h2 class=" w-full md:text-xl text-lg font-bold">${
+                    item?.name
+                  }</h2>
                   <p class="md:text-lg w-full text-base font-medium">
                       ${item?.price}$/each
                   </p>
-                  <p class="md:text-sm text-xs text-justify">${item?.description}</p>
+                  <p class="md:text-sm text-xs text-justify">${
+                    item?.description
+                  }</p>
                   <div class="card-actions w-full mt-2">
-                        ${cartIds.includes(parseInt(item?.id)) ? `<button disabled class="btn btn-primary bg-[#fd5442] text-white border-none uppercase w-full block">Added To Cart</button>` :`<button onclick="handleAddToCart(${item?.id})" class="btn btn-primary bg-[#fd5442] text-white border-none uppercase w-full block">Add To Order</button>` }
+                        ${
+                          cartIds.includes(parseInt(item?.id))
+                            ? `<button disabled class="btn btn-primary bg-[#fd5442] text-white border-none uppercase w-full block">Added To Cart</button>`
+                            : `<button onclick="handleAddToCart(${item?.id})" class="btn btn-primary bg-[#fd5442] text-white border-none uppercase w-full block">Add To Order</button>`
+                        }
                       <button class="btn btn-primary text-[#fd5442] border-2 border-[#fd5442] bg-transparent uppercase w-full block">Customize</button>
                   </div>
               </div>
           </div> 
         `;
-    });
+  });
 
-      productContainer.innerHTML = updatedCards.join("");
-      if(ab === 1) {
-        drawerBtn.click();
-        ab=0;
-      }
-}
+  productContainer.innerHTML = updatedCards.join("");
+  if (ab === 1) {
+    drawerBtn.click();
+    ab = 0;
+  }
+};
 
 const allCards = foodsItems.map((item) => {
   return `
