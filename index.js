@@ -46,13 +46,18 @@ const closeDrawer = () => {
   itemCount.innerHTML = `<span>${
     cartItems?.length ? cartItems?.length : 0
   }</span>`;
-  ab = 1;
 
   drawerBtn.click();
+  ab = 1;
 };
 
+
 const changeToNumber = () => {
-  ab = 1;
+  if(ab === 1) {
+    ab = 0;
+  } else if(ab === 0) {
+    ab = 1;
+  }
 };
 
 const handleRemoveItem = (id) => {
